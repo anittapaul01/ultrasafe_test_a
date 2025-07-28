@@ -39,11 +39,13 @@ curl -X POST "http://localhost:8000/nlp/unified" -d '{"text": "Malaria is infect
 2. Extract Entities: Finds important words (e.g., "Malaria").
 3. Summarize: Shortens text to key points.
 4. Sentiment: Checks if text is happy, sad, or neutral with a score.
+   
 - Batch Processing: Handles many texts at once.
 - Background Work: Uses Celery to process tasks separately, so it doesn’t slow down.
 - Webhooks: Sends results to a URL you provide when done.
 - Smart Search: Finds similar documents to improve answers.
 - Fast Storage: Saves results for 1 hour to avoid redoing work.
+  
 **How It Works**
 - The app starts by setting up Qdrant with data from filtered_diseases.csv.
 - When you send a request to /nlp/unified, it checks if the result is saved in Redis.
@@ -51,6 +53,7 @@ curl -X POST "http://localhost:8000/nlp/unified" -d '{"text": "Malaria is infect
 - It finds similar documents with usf1-embed and ranks them with usf1-rerank.
 - New data is saved to Qdrant, and a webhook is sent if you gave a URL.
 - The system runs with 4 workers and can grow with more.
+  
 **Design Choices**
 - One Endpoint: Uses /nlp/unified for all tasks to keep it simple. This makes it easy to use but less specific than separate endpoints.
 - usf1-mini: Used for all tasks because it’s the only model available. It works well but might not be as accurate as special models.
@@ -58,6 +61,7 @@ curl -X POST "http://localhost:8000/nlp/unified" -d '{"text": "Malaria is infect
 - Celery: Handles tasks in the background with a queue. Adds some complexity but manages heavy loads.
 - Redis: Saves results for 1 hour. Fast but might miss new data after that time.
 - Docker: Sets up Redis and Qdrant easily. Helps with scaling but needs setup.
+  
 **Extra Tools**
 - Load Testing: Use locust -f locustfile.py to test how it handles many requests.
 - Docker Setup: Check docker-compose.yml to run Redis and Qdrant.
