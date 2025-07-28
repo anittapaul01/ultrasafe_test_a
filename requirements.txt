@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+httpx
+python-dotenv
+aiocache
+qdrant-client
+numpy
+pydantic
+nest_asyncio
+celery 
+redis
