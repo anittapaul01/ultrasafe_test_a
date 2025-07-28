@@ -26,6 +26,7 @@ This guide explains how to use the API endpoints in the Ultrasafe Test A NLP sys
   "completed_at": "2025-07-29T00:53:00",
   "related_docs": ["Malaria is infectious"]
 }
+
 ## How It Works
 - When you send a request, the system checks if the result is saved in Redis. If not, it starts the task.
 - For a single text, it uses Celery to process in the background. [API Development - Asynchronous Processing]
